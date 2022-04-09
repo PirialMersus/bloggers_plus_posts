@@ -83,7 +83,7 @@ let posts: Array<post> = [
 ]
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Hello: World!!!');
+    res.send('Hello: World');
 })
 
 app.get('/bloggers', (req: Request, res: Response) => {
