@@ -92,6 +92,28 @@ app.get('/bloggers', (req: Request, res: Response) => {
 app.get('/posts', (req: Request, res: Response) => {
     res.send(posts);
 })
+app.get('/bloggers/:bloggerId', (req: Request, res: Response) => {
+
+    const id = +req.params.bloggerId;
+
+    const blogger = bloggers.find(blogger => blogger.id === id)
+    if (blogger) {
+        res.send(blogger)
+    } else {
+        res.send(404)
+    }
+})
+app.get('/posts/:postId', (req: Request, res: Response) => {
+
+    const id = +req.params.postId;
+
+    const post = posts.find(post => post.id === id)
+    if (post) {
+        res.send(post)
+    } else {
+        res.send(404)
+    }
+})
 
 app.post('/bloggers', (req: Request, res: Response) => {
     if (!req.body.name) {
