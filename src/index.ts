@@ -212,6 +212,13 @@ app.post('/posts', (req: Request, res: Response) => {
         res.status(400).send(errorObj)
     }
     const bloggerName = bloggers.find(blogger => blogger.id === +req.body.bloggerId)
+    if (!bloggerName) {
+        errorObj.errorsMessages = [{
+            message: 'incorrect blogger id',
+            field: 'bloggerId',
+        }]
+        res.status(400).send(errorObj)
+    }
     const newPost = {
         id: posts.length,
         title: req.body.title,
@@ -292,7 +299,15 @@ app.put('/posts/:id', (req: Request, res: Response) => {
     const title = req.body.title;
     const shortDescription = req.body.shortDescription;
     const content = req.body.content;
-    const bloggerId = req.body.bloggerId;
+    const bloggerId = +req.body.bloggerId;
+
+    if (!bloggers.find(blogger => blogger.id === bloggerId)){
+        errorObj.errorsMessages = [{
+            message: 'incorrect blogger id',
+            field: 'bloggerId',
+        }]
+        res.status(400).send(errorObj)
+    }
 
     if (req.params.id === 'empty') {
         errorObj.errorsMessages = [{
@@ -402,7 +417,7 @@ app.delete('/posts/:id', (req: Request, res: Response) => {
         res.status(404).send(errorObj)
     }
     const resultPosts = posts.filter(post => post.id !== id)
-    if (resultPosts.length === bloggers.length) {
+    if (resultPosts.length === posts.length) {
         errorObj.errorsMessages = [{
             message: 'Required post not found',
             field: 'none',
